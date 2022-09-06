@@ -9,9 +9,11 @@
 #include <sys/time.h>
 #include <cstdint>
 
-#include "divsufsort.h"
-#include "bit_vectors.hpp"	  // include header for bit vectors
-#include "rmq_support.hpp"
+
+#include <divsufsort.h>                                           // include header for suffix sort
+
+#include <sdsl/bit_vectors.hpp>					  // include header for bit vectors
+#include <sdsl/rmq_support.hpp>	
 
 using namespace sdsl;
 using namespace std;
@@ -175,15 +177,15 @@ int main(int argc, char const *argv[]){
     string utmp, vtmp, u, v;
 
     if(nTwoeolens != 0){
-        I = 2*strlen((char *) word);
+        I = 2*N;
         cout << "word: " << (char *) word << endl;
         for ( INT i = 0; i < nTwoeolens; i ++ )
         {
-            utmp = "";
-            vtmp = "";
+            string utmp(2*N+1, '0'); //messi oltre l'upper bound di lenght per il caso 2 c
+            string vtmp(2*N+1, '0');
             witnessesConstructor((char *) word, twoeolens[i], allerrpos[i], nAllerrpos[i], &utmp, &vtmp, LCP, invSA, rmq);
             if (utmp.length() < I){
-                I = utmp.length();
+                I = utmp.length();// Lee index è la lunghezza dei testimoni? nel codice originale viene messo u invece di utmp
                 u = utmp;
                 v = vtmp;
             }
@@ -305,6 +307,7 @@ INT witnessesConstructor( char * f, INT l, INT * errpos, INT nErrpos, string * u
     } else {
         INT j = errpos[1];
         bool cplus = condPlus(f, r, errpos[0], errpos[1], LCP, invSA, rmq);
+        cout << "cplus: " << cplus <<endl;
 
         if (cplus == false){
             char * falfa = (char *) malloc (n * sizeof(char));
@@ -324,7 +327,9 @@ INT witnessesConstructor( char * f, INT l, INT * errpos, INT nErrpos, string * u
                 fprintf(stderr, "Error: building the string for witnessConstructor");
                 exit(EXIT_FAILURE);
             }
+            cout <<"u: " << *u << " - " << *v << " r: "<< r << endl;
         } else {
+            cout<< "sono entrato a fare eta e gamma: "<< *u << " - " << *v << " r: "<< r << "i: " << i<< endl;
             if (i <= r/2){
                 char * feta = (char *) malloc (n * sizeof(char));
                 char * fgamma = (char *) malloc (n * sizeof(char));
@@ -344,11 +349,17 @@ INT witnessesConstructor( char * f, INT l, INT * errpos, INT nErrpos, string * u
                     fprintf(stderr, "Error: building the string for witnessConstructor");
                     exit(EXIT_FAILURE);
                 }
+                string suff(f+(n)-(r/2));
+
+                *u = *u + suff;
+                *v = *v + suff;// il suffisso nel codice dell'articolo non c'è, ho sbagliato io ad interpretare?
+                
             }
         }
 
     }
-
+    
+    cout <<"alla fine u: " << *u << " - " << *v << " r: "<< r << endl;
     return 0;
 }
 
