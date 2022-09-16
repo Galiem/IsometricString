@@ -10,7 +10,7 @@
 #include <cstdint>
 
 
-#include <divsufsort.h>                                           // include header for suffix sort
+#include <divsufsort.h>                           // include header for suffix sort
 
 #include <sdsl/bit_vectors.hpp>					  // include header for bit vectors
 #include <sdsl/rmq_support.hpp>	
@@ -181,8 +181,8 @@ int main(int argc, char const *argv[]){
         cout << "word: " << (char *) word << endl;
         for ( INT i = 0; i < nTwoeolens; i ++ )
         {
-            string utmp(2*N+1, '0'); //messi oltre l'upper bound di lenght per il caso 2 c
-            string vtmp(2*N+1, '0');
+            string utmp(2*N, '0'); //messi oltre l'upper bound di lenght per il caso 2c
+            string vtmp(2*N, '0');
             witnessesConstructor((char *) word, twoeolens[i], allerrpos[i], nAllerrpos[i], &utmp, &vtmp, LCP, invSA, rmq);
             if (utmp.length() < I){
                 I = utmp.length();// Lee index è la lunghezza dei testimoni? nel codice originale viene messo u invece di utmp
