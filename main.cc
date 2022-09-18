@@ -292,8 +292,11 @@ INT witnessesConstructor( char * f, INT l, INT * errpos, INT nErrpos, string * u
         } else {
             falfa1[i] = '3';
         }
+    
              
         fbeta1[i] = (((fbeta1[i] - '0') + 1) % 4) + '0';
+
+
 
         if(stringBuilder(f, r, u, falfa1) != 0){
             fprintf(stderr, "Error: building the string for witnessConstructor");
@@ -392,7 +395,7 @@ bool condPlus(char * f, INT r, INT i, INT j, INT * LCP, INT * invSA, rmq_succinc
 
 // Function that takes a string and returns its prefix of lenght r
 char * strPrefix(char * str, int r){
-    char * prefix = (char *) malloc(r * sizeof(char));
+    char * prefix = (char *) malloc((r+1) * sizeof(char));
     if(prefix == NULL){
         fprintf(stderr, " Error: Cannot allocate memory for prefix.\n" );
         exit(EXIT_FAILURE);
@@ -401,6 +404,7 @@ char * strPrefix(char * str, int r){
     {
         prefix[i] = str[i];
     }
+    prefix[r]= '\0';
     return prefix;
 }
 
