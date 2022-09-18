@@ -39,14 +39,14 @@ int main(int argc, char const *argv[]){
     bool flag = true;
 
     do {
-        cout << endl << "Inserisci la parola (numeri da 0 a 3): ";
+        cout << endl << "Insert a string (numbers from 0 to 3): ";
         cin >> word;
         flag = false;
         for (int i = 0; i < strlen((char *)word); i++)
         {
             if ((word[i] != '0' && word[i] != '1' && word[i] != '2' && word[i] != '3'))
             {
-                cout << "La parola non è valida.";
+                cout << "Inserted string is not valid.";
                 flag = true;
                 break;
             }
@@ -102,11 +102,6 @@ int main(int argc, char const *argv[]){
     rmq_succinct_sct<> rmq(&vect);
 	util::clear(vect);
 
-    for ( INT i = 0; i < N; i ++ )
-    {
-        printf("LCP: %d ", LCP[i]);
-    }
-    
     INT * twoeolens, *allerrpos[N], nTwoeolens, nAllerrpos[N], I, totalErrors;
     twoeolens = (INT *) malloc(N * sizeof(INT));
 
@@ -125,7 +120,7 @@ int main(int argc, char const *argv[]){
     }
     
     if(twoErrorOverlaps(word, twoeolens, &nTwoeolens, allerrpos, &totalErrors, nAllerrpos, LCP, invSA, rmq) != 0){
-        cout << "Errore nella ricerca dei 2-error-overlaps" << endl;
+        cout << "Error occurred during 2-error-overlaps search" << endl;
     }
 
     string utmp, vtmp, u, v;
@@ -159,7 +154,7 @@ int main(int argc, char const *argv[]){
         }
         cout << endl;
     } else {
-        printf("Non ci sono 2-error-overlaps\n");
+        printf("The string is isometric!\n");
     }
     return 0;
 }
